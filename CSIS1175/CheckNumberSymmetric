@@ -1,0 +1,94 @@
+/*
+ * Programmer:  Bruno do Nascimento Beserra
+ * Date:        Winter 2024
+ * Purpose:     MidTerm Exam (Check if a number of 6 digits is symmetric or not)
+ */
+using System;
+
+namespace MidTermExam
+{
+    class MidTermExam
+    {
+        static void Main(string[] args)
+        {
+            string userInput;
+            int userValue;
+            bool isNumberValid;
+            int lastDigit;
+            int firstDigit;
+            int newNumber;
+
+            Console.Write("Enter a Number: ");
+            userInput = Console.ReadLine();
+            isNumberValid = int.TryParse(userInput, out userValue);
+
+            if (isNumberValid == false)
+            {
+                Console.WriteLine("Enter a numeric value.");
+                Console.ReadKey();
+            }
+            else if (!IsBetween(userValue, 100000, 999999))
+            {
+                Console.WriteLine("Enter a 6 digit number.");
+                Console.ReadKey();
+            }
+            else
+            {
+                lastDigit = GetRightDigit(userValue);
+                firstDigit = GetLeftDigit(userValue, 100000);
+
+                if (firstDigit == lastDigit)
+                {
+                    newNumber = (userValue - lastDigit - firstDigit * 100000) / 10;
+
+                    lastDigit = GetRightDigit(newNumber);
+                    firstDigit = GetLeftDigit(newNumber, 1000);
+
+                    if (firstDigit == lastDigit)
+                    {
+                        newNumber = (newNumber - lastDigit - firstDigit * 1000) / 10;
+
+                        lastDigit = GetRightDigit(newNumber);
+                        firstDigit = GetLeftDigit(newNumber, 10);
+                        if (firstDigit == lastDigit)
+                        {
+                            Console.Write("The number is symmetric.");
+                        }
+                        else
+                        {
+                            Console.Write("The Number is not symmetric.");
+                        }
+                    }
+                    else
+                    {
+                        Console.Write("The Number is not symmetric.");
+                    }
+                }
+                else
+                {
+                    Console.Write("The Number is not symmetric.");
+                }
+            }
+        }
+        static bool IsBetween(int number, int lowerLimit, int upperLimit)
+        {
+            if (number < lowerLimit || number > upperLimit)
+            {
+                return false;
+            }
+            else
+            {
+                return true;
+            }
+        }
+        static int GetLeftDigit(int number, int multiple_10)
+        {
+            return number / multiple_10;
+        }
+        static int GetRightDigit(int number)
+        {
+            const int DIVISOR_NUMBER = 10;
+            return number % DIVISOR_NUMBER;
+        }
+    }
+}
