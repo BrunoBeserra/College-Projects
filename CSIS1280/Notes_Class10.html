@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+</head>
+<body>
+    <input type="number" id="userInput" />
+    <button onclick="showLetterGrade()">Show Season Name</button><br />
+    <p id="result"></p>
+
+
+    <script>
+        function showSeasonName() {
+
+            let userInput = document.getElementById('userInput').value;
+
+            if (userInput == 1 || userInput == 2 || userInput == 3) {
+                document.getElementById('result').innerText = "It is winter";
+            }
+            else if (userInput == 4 || userInput == 5 || userInput == 6) {
+                document.getElementById('result').innerText = "It is spring";
+            }
+            else if (userInput == 7 || userInput == 8 || userInput == 9) {
+                document.getElementById('result').innerText = "It is summer";
+            }
+            else if (userInput == 10 || userInput == 11 || userInput == 12) {
+                document.getElementById('result').innerText = "It is fall";
+            }
+
+        }
+
+        function showSeasonName_sw() {
+
+            let userInput = document.getElementById('userInput').value;
+
+            switch (userInput) {
+                case 1:
+                case 2:
+                case 3:
+                    document.getElementById('result').innerText = "It is winter";
+                    break;
+                case 4:
+                case 5:
+                case 6:
+                    document.getElementById('result').innerText = "It is spring";
+                    break;
+                case 7:
+                case 8:
+                case 9:
+                    document.getElementById('result').innerText = "It is summer";
+                    break;
+                case 10:
+                case 11:
+                case 12:
+                    document.getElementById('result').innerText = "It is fall";
+                    break;
+                default:
+                    document.getElementById('result').innerText = "It's not valid";
+                    break;
+            }
+        }
+
+        function showLetterGrade() {
+            let userInput = Number(document.getElementById('userInput').value);
+
+            if (userInput < 50 && userInput >= 0) {
+                document.getElementById('result').innerText = "F";
+            }
+            else if (userInput >= 50 && userInput < 55) {
+                document.getElementById('result').innerText = "D";
+            }
+            else if (userInput >= 55 && userInput < 60) {
+                document.getElementById('result').innerText = "C-";
+
+            }
+            else if (userInput >= 60 && userInput < 65) {
+                document.getElementById('result').innerText = "C";
+
+            }
+            else if (userInput >= 65 && userInput < 70) {
+                document.getElementById('result').innerText = "C+";
+
+            }
+            else if (userInput >= 70 && userInput < 73) {
+                document.getElementById('result').innerText = "B-";
+
+            }
+            else if (userInput >= 73 && userInput < 77) {
+                document.getElementById('result').innerText = "B";
+
+            }
+            else if (userInput >= 77 && userInput < 80) {
+                document.getElementById('result').innerText = "B+";
+
+            }
+            else if (userInput >= 80 && userInput < 85) {
+                document.getElementById('result').innerText = "A-";
+
+            }
+            else if (userInput >= 85 && userInput < 90) {
+                document.getElementById('result').innerText = "A";
+            }
+            else if (userInput >= 90 && userInput <= 100) {
+                document.getElementById('result').innerText = "A+";
+            }
+            else
+            {
+                document.getElementById('result').innerText = "Invalid Number";
+            }
+        }
+    </script>
+
+</body>
+</html>
