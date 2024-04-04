@@ -1,0 +1,53 @@
+﻿<!DOCTYPE html>
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+</head>
+<body>
+    <input type="text" id="courseName" />
+    <input type="number" id="userGrade" />
+    <button onclick="courseGrades()">Enter</button>
+    <button onclick="averageGrades()">Get Average</button>
+    <br />
+    <p id="gradesList"></p>
+    <p id="gradesAverage"></p>
+
+    <script>
+        let gradesList = [];
+        let courseNames = [];
+        let courses = [];
+        function displayList() {
+            let grade = Number(document.getElementById("userGrade").value);
+            let courseName = document.getElementById("courseName").value;
+            gradesList.push(grade);
+            courseNames.push(courseName);
+            document.getElementById("gradesList").innerHTML = "";
+            for (let i = 0; i < gradesList.length; i++) {
+                document.getElementById("gradesList").innerHTML += courseNames[i] + " " + gradesList[i] + "<br />";
+            }
+        }
+        function courseGrades() {
+            let course = { name: "", grade: 0 };
+            course.grade = Number(document.getElementById("userGrade").value);
+            course.name = document.getElementById("courseName").value;
+            courses.push(course);
+            document.getElementById("gradesList").innerHTML = "";
+            for (let i = 0; i < courses.length; i++) {
+                document.getElementById("gradesList").innerHTML += courses[i].name + " " + courses[i].grade + "<br />";
+            }
+        }
+        function averageGrades() {
+            let sum = 0;
+            for (let i = 0; i < courses.length; i++) {
+                sum += courses[i].grade;
+            }
+            let average = sum / courses.length;
+
+            document.getElementById("gradesAverage").innerHTML = average.toFixed(2);
+        }
+
+    </script>
+</body>
+</html>
