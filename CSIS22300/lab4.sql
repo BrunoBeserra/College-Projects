@@ -185,3 +185,46 @@ SELECT e.employee_id, e.last_name, e.department_id, d.department_id, d.location_
 FROM employees e JOIN departments d
 ON (e.department_id = d.department_id)
 AND e.manager_id = 149;
+
+--=================================================================
+-------------------------- lab 4 Task -----------------------------
+--=================================================================
+
+-- 1 --
+
+SELECT e.last_name, e.department_id, d.department_name
+FROM employees e
+LEFT OUTER JOIN departments d
+ON (e.department_id = d.department_id);
+
+-- 2 --
+
+SELECT e.Last_Name, d.department_name, l.Location_id, l.City
+FROM employees e
+JOIN departments d ON e.department_id = d.department_id
+JOIN locations l ON d.location_id = l.location_id
+WHERE e.Commission_pct IS NOT NULL;
+
+-- 3 --
+
+SELECT e.Last_Name, j.job_title, e.department_id, d.department_name
+FROM employees e
+JOIN departments d ON e.department_id = d.department_id
+JOIN locations l ON d.location_id = l.location_id
+JOIN jobs j ON e.Job_Id = j.job_id
+WHERE l.City = 'Toronto';
+
+-- 4 --
+
+SELECT last_name, salary, Commission_pct
+FROM employees
+WHERE Commission_pct IS NOT NULL
+ORDER BY Salary, Commission_pct DESC;
+
+-- 5 --
+
+SELECT e.last_name AS "Employee", e.employee_id AS "Emp#", 
+manager.last_name AS "Manager", e.Manager_id AS "Mgr#"
+FROM employees e
+LEFT OUTER JOIN employees manager 
+ON (e.manager_id = manager.employee_id);
