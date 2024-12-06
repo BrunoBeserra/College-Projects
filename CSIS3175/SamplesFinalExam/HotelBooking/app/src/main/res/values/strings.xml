@@ -1,0 +1,31 @@
+<resources>
+    <string name="app_name">Hotel Booking</string>
+
+    <!-- Welcome Screen -->
+    <string name="ws_college_info"> Douglas College \n CSIS3175/003</string>
+    <string name="ws_studentName">Student Name: Bruno do Nascimento Beserra</string>
+    <string name="ws_studentId">Student ID: 300392300</string>
+    <string name="ws_term">Fall/2024</string>
+    <string name="ws_button">Start Booking</string>
+    <string name="ws_img_description">Good Luck Logo</string>
+
+    <!-- Splash Screen -->
+    <string name="ss_title">Are you Ready?</string>
+    <string name="ss_counter"> </string>
+    <string name="ss_soundTest">Hear Sound</string>
+
+
+    <!-- Hotel Selection -->
+    <string name="hs_title">Hotel Booking</string>
+    <string-array name="hs_group">
+        <item>Standard Room</item>
+        <item>Premium Room</item>
+        <item>VIP Room</item>
+    </string-array>
+    <string name="hs_number_nights">Number of Nights</string>
+    <string name="date_box">Start Date</string>
+    <string name="hs_calculate">Calculate Price</string>
+
+
+
+</resources>
