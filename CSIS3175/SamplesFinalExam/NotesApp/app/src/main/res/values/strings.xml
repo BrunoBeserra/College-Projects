@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">Notes App</string>
+    <string name="app_title"><b>Notes</b></string>
+    <string name="app_button"><b>Add New Note</b></string>
+
+    <!-- Add Note Interface -->
+    <string name="addNoteTitleHint">Title</string>
+    <string name="addNoteDescriptionHint">Description</string>
+    <string name="saveNoteButton"><b>Save Note</b></string>
+</resources>
