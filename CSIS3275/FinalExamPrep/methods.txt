@@ -1,0 +1,106 @@
+<script>
+import RegCityServices from "../services/RegCityServices.js";
+
+export default {
+    name: "cityRegister",
+    data(){
+        return {
+            registerMessage: "",
+            registerMessage2: "",
+            registerMessage3: "",
+            cname: "",
+            cparks: "",
+            sections: [],
+            idcity: "",
+            updcname: "",
+            updcparks: "",
+            updidcity: "",
+            city: [],
+            idcityinf: ""
+        }
+    },
+    methods: {
+        handleSubmit(event){
+            event.preventDefault();
+            RegCityServices.RegCity(this.cityName, this.parksNum)
+                .then(response => {
+                    const newRegistration = response.data;
+                    console.log(newRegistration);
+                    this.registerMessage = `Register city ${this.cityName} with ${this.parksNum} parks`;
+                    console.log(this.registerMessage);                
+                })
+                .catch(error => {
+                    this.registerMessage = error;
+                    console.log(error);
+                })
+            },
+            handleDelete(event){
+            event.preventDefault();
+            RegCityServices.delCity(this.cityId)
+            .then(response => {
+                    const newRegistration = response.data;
+                    console.log(newRegistration);
+                    this.registerMessage2 = `City ID ${this.cityId} deleted`;
+                    console.log(this.registerMessage);                
+                })
+                .catch(error => {
+                    this.registerMessage2 = error;
+                    console.log(error);
+                })            
+            },
+
+            handleUpdate(event){
+                event.preventDefault();
+                RegCityServices.updateCity(this.cityId, this.cityName, this.updcparks)
+                    .then(response => {
+                        const newRegistration = response.data;
+                        console.log(newRegistration);
+                        this.registerMessage = `City ID ${this.cityId} updated`;
+                        console.log(this.registerMessage);                
+                    })
+                    .catch(error => {
+                        this.registerMessage = error;
+                        console.log(error);
+                    })
+            },
+
+            handleCitiesById(event){
+                event.preventDefault();
+                RegCityServices.getCity(this.cityId)
+                    .then(response => {
+                            //this.city = response.data;
+                            this.city = Array.isArray(response.data) ? response.data : [response.data];
+                        })
+                        .catch(error =>{
+                            console.log(error)
+                        })            
+            },
+
+            handleListCities(event){
+                event.preventDefault();
+                RegCityServices.getCities()
+                    .then(response => {
+                        this.sections = response.data;
+                    })
+                    .catch(error =>{
+                        console.log(error)
+                    })            
+            },
+
+            handleDeleteCities(event){
+                event.preventDefault();
+                RegCityServices.delCities()
+                    .then(response => {
+                        this.sections = response.data;
+                    })
+                    .catch(error =>{
+                        console.log(error)
+                    })            
+            }
+    },
+    mounted() {
+        
+    },
+}
+
+</script>
