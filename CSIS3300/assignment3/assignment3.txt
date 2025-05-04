@@ -1,0 +1,178 @@
+------------------------------------------------------------------------
+-------------------------------- PART A --------------------------------
+------------------------------------------------------------------------
+
+
+=== collection ===
+
+db.cars.insertMany( [
+  { model: "Accord",	
+     make: "Honda",
+     type: "Sedan",
+     instock: [ { store: "Fraser", qty: 20 }, { store: "Maple", qty: 25 }, { store: "Moody", qty: 25 } ]
+  },
+  { model: "Camry",
+     make: "Toyota",
+     type: "Sedan",
+     instock: [ { store: "Moody", qty: 35 }, { store: "North Shore", qty: 40 }, { store: "Rocky", qty: 40 } ]
+  },
+  { model: "Civic",
+     make: "Honda",
+     type: "Sedan",
+     instock: [ { store: "Fraser", qty: 35 }, { store: "North Shore", qty: 40 }, { store: "Rocky", qty: 35 }, { store: "Valley", qty: 40 } ]
+  },
+  { model: "Rav4",
+     make: "Toyota",
+     type: "SUV",
+     instock: [ { store: "Fraser", qty: 43 }, { store: "Moody", qty: 52 } ]
+  },
+  { model: "Edge",
+     make: "Ford",
+     type: "SUV",  
+     instock: [ { store: "Fraser", qty: 35 },  { store: "Moody", qty: 25 }, { store: "Rocky", qty: 35 }, { store: "Valley", qty: 20 } ]
+  },
+  { model: "Ridgeline",
+     make: "Honda",
+     type: "Truck",
+     instock: [ { store: "Maple", qty: 35 }, { store: "Rocky", qty: 25 }, { store: "Valley", qty: 30 } ]
+  },
+  { model: "F-150",
+     make: "Ford",
+     type: "Truck",
+     instock: [ { store: "Fraser", qty: 35 }, { store: "North Shore", qty: 42 }, { store: "Valley", qty: 43 } ]
+  }
+] );
+
+
+
+
+=======================================================================
+
+=== 1 ===
+
+Find each store that has at least 60 sedans. Display the store name and the total qty of sedans in the store and sort the result in ascending order of the total qty. 
+-----------------------------------------------------------------------
+
+  db.cars.aggregate([
+   { $unwind: "$instock" },
+   { $match: { type: "Sedan" }},
+   { $group: {
+     _id: "$instock.store",
+     total_qty: {
+       $sum: "$instock.qty"
+     }
+   }},
+   { $match: {
+     total_qty: {"$gte": 60}
+   }},
+   { $project: {
+      _id: 0,
+      store: "$_id",
+      total_qty: "$total_qty"
+    }},
+   { $sort: { "total_qty": 1 } }
+ ])
+
+-----------------------------------------------------------------------
+
+=== 2 ===
+
+Find the models with the third highest total qty in all the stores. The field names and order of the fields in your result must be the same;
+-----------------------------------------------------------------------
+
+db.cars.aggregate([
+   { $unwind: "$instock"},
+   { $group: {
+     _id: "$model",
+     total_qty: {
+       $sum: "$instock.qty"
+     }
+   }},
+   { $group: {
+      _id: "$total_qty",
+      models: {
+        $push: "$_id"
+      }
+    }},
+   { $sort: {
+     _id: -1
+   }},
+   {$skip: 2},
+   {$limit: 1},
+   { $project: {
+     _id: 0,
+     models: "$models",
+     total_qty: "$_id"
+   }
+   }
+ ])
+
+-----------------------------------------------------------------------
+
+=== 3 ===
+
+Find the cars that are available at more than two stores and the qty at each store is greater than 30. Display the model, type fields, and the total qty, and sort the result in ascending order of the total qty. 
+-----------------------------------------------------------------------
+
+db.cars.aggregate([
+   { $unwind: "$instock" },
+   { $match: {"instock.qty": {"$gt": 30}}},
+   { $group: {
+     _id: {model: "$model", type: "$type"},
+     total_qty: {
+       $sum: "$instock.qty"
+     },
+     stores_count: { $sum: 1}
+   }},
+   { $match: {
+      "stores_count": {"$gt": 2}
+   }},
+   { $project: {
+     _id: 0,
+     model: "$_id.model",
+     type: "$_id.type",
+     total_qty: "$total_qty",
+   }},
+   { $sort: {
+     total_qty: 1
+   }}
+ ])
+
+-----------------------------------------------------------------------
+
+=== 4 ===
+
+Find the cars with a qty greater than 40 at more than one store (e.g., F-150 and Rav4). Display the model, make, and inventory fields in the result, where the inventory field only includes the stores with a qty greater than 40.
+-----------------------------------------------------------------------
+
+db.cars.aggregate([
+   { $unwind: "$instock"},
+   { $match: {
+     "instock.qty": {"$gt": 40}
+   }},
+   { $group: {
+     _id: {model: "$model", make: "$make"},
+     inventory: {
+       $push: "$instock"
+     },
+     stores_count: { $sum: 1}
+   }},
+   { $match: { stores_count: {"$gt": 1}}},
+   { $project: {
+     _id: 0,
+     model: "$_id.model",
+     make: "$_id.make",
+     inventory: "$inventory"
+   }}
+ ])
+
+-----------------------------------------------------------------------
+
+
+
+
+
+
+
+
+
